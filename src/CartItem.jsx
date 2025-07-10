@@ -9,8 +9,8 @@ const CartItem = () => {
   const dispatch = useDispatch();
 
   // Calculate total cost for all items in the cart
-  const calculateTotalAmount = () => {
-    return cart
+  const calculateTotalAmount = () =>
+    cart
       .reduce((sum, item) => {
         const price = typeof item.cost === 'string'
           ? parseFloat(item.cost.replace('$', ''))
@@ -18,7 +18,6 @@ const CartItem = () => {
         return sum + price * item.quantity;
       }, 0)
       .toFixed(2);
-  };
 
   // Calculate subtotal for a specific item
   const calculateTotalCost = (item) => {
@@ -82,6 +81,7 @@ const CartItem = () => {
                 <button
                   className="cart-btn"
                   onClick={() => handleDecrement(item)}
+                  disabled={item.quantity <= 1}
                 >
                   −
                 </button>
@@ -111,10 +111,7 @@ const CartItem = () => {
         <Link to="/products" className="continue-shopping-btn">
           Continue Shopping
         </Link>
-        <button
-          className="checkout-btn"
-          onClick={handleCheckoutShopping}
-        >
+        <button className="checkout-btn" onClick={handleCheckoutShopping}>
           Checkout
         </button>
       </div>

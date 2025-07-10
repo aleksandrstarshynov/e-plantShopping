@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from './CartSlice';
+import './ProductList.css';
 
-// Sample array; replace or adjust import as needed
 const plantsArray = [
   {
     name: 'Snake Plant',
@@ -50,36 +50,43 @@ const plantsArray = [
 
 const ProductList = () => {
   const dispatch = useDispatch();
+  const cartItems = useSelector(state => state.cart.items);
+  const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const [addedToCart, setAddedToCart] = useState({});
 
   const handleAddToCart = (plant) => {
-    // Dispatch plant to Redux store
     dispatch(addItem(plant));
-    // Mark this plant as added in local state
     setAddedToCart(prev => ({ ...prev, [plant.name]: true }));
   };
 
   return (
-    <div className="product-grid">
-      {plantsArray.map(plant => (
-        <div key={plant.name} className="product-card">
-          <img
-            src={plant.image}
-            alt={plant.name}
-            className="product-image"
-          />
-          <h3 className="product-name">{plant.name}</h3>
-          <p className="product-desc">{plant.description}</p>
-          <p className="product-cost">${plant.cost.toFixed(2)}</p>
-          <button
-            className="add-btn"
-            onClick={() => handleAddToCart(plant)}
-            disabled={addedToCart[plant.name]}
-          >
-            {addedToCart[plant.name] ? 'Added' : 'Add to Cart'}
-          </button>
-        </div>
-      ))}
+    <div className="product-list-page">
+      <header className="product-list-header">
+        <h2>Our Plants</h2>
+        <div className="cart-summary">Items in Cart: {totalCount}</div>
+      </header>
+
+      <div className="product-grid">
+        {plantsArray.map(plant => (
+          <div key={plant.name} className="product-card">
+            <img
+              src={plant.image}
+              alt={plant.name}
+              className="product-image"
+            />
+            <h3 className="product-name">{plant.name}</h3>
+            <p className="product-desc">{plant.description}</p>
+            <p className="product-cost">${plant.cost.toFixed(2)}</p>
+            <button
+              className="add-btn"
+              onClick={() => handleAddToCart(plant)}
+              disabled={addedToCart[plant.name]}
+            >
+              {addedToCart[plant.name] ? 'Added' : 'Add to Cart'}
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
