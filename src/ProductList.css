@@ -93,8 +93,8 @@ body {
 }
 
 .product-image {
-    max-width: 100%;
-    height: 200px; /* Adjust height for better consistency */
+  width: 25%;
+  height: auto;
 }
 
 .product-button {
