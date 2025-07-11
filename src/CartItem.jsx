@@ -19,6 +19,10 @@ const CartItem = () => {
       }, 0)
       .toFixed(2);
 
+  // Calculate total number of items in the cart
+  const calculateTotalCount = () =>
+    cart.reduce((sum, item) => sum + item.quantity, 0);
+
   // Calculate subtotal for a specific item
   const calculateTotalCost = (item) => {
     const price = typeof item.cost === 'string'
@@ -46,13 +50,16 @@ const CartItem = () => {
     dispatch(removeItem(item.name));
   };
 
-  // Checkout handler (stub)
+  // Checkout button stub
   const handleCheckoutShopping = () => {
-    alert('Functionality to be added for future reference');
+    alert('Coming Soon');
   };
 
   return (
     <div className="cart-container">
+      <h2 className="cart-count">
+        Total Items: {calculateTotalCount()}
+      </h2>
       <h2 className="cart-title">
         Total Cart Amount: ${calculateTotalAmount()}
       </h2>
